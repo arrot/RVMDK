@@ -76,6 +76,8 @@
 #define  APP_TASK_CANTX_STK_SIZE                    256u
 #define  APP_TASK_USART_STK_SIZE                    256u
 #define  APP_TASK_USART_TX_STK_SIZE                 256u
+#define  APP_TASK_USART1_TX_STK_SIZE                256u
+#define  APP_TASK_USART1_STK_SIZE                    256u
 /*
 *********************************************************************************************************
 *                                            TASK STACK SIZES LIMIT

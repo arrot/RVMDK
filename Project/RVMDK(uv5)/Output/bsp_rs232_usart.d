@@ -63,3 +63,5 @@
 .\output\bsp_rs232_usart.o: ..\..\User\BSP\bsp.h
 .\output\bsp_rs232_usart.o: ..\..\User\BSP\led\bsp_led.h
 .\output\bsp_rs232_usart.o: ..\..\User\BSP\can\bsp_can.h
+.\output\bsp_rs232_usart.o: ..\..\User\BSP\key\bsp_key.h
+.\output\bsp_rs232_usart.o: ..\..\User\BSP\./tim/bsp_general_tim.h

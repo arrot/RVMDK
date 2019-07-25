@@ -52,6 +52,8 @@
 .\output\bsp.o: ..\..\User\BSP\led\bsp_led.h
 .\output\bsp.o: ..\..\User\BSP\can\bsp_can.h
 .\output\bsp.o: ..\..\User\BSP\usart\bsp_rs232_usart.h
+.\output\bsp.o: ..\..\User\BSP\key\bsp_key.h
+.\output\bsp.o: ..\..\User\BSP\./tim/bsp_general_tim.h
 .\output\bsp.o: ..\..\User\uCOS-III\Source\os.h
 .\output\bsp.o: ..\..\User\APP\os_cfg.h
 .\output\bsp.o: ..\..\User\uCOS-III\Source\os_type.h

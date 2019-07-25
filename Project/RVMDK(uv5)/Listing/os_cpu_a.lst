@@ -474,13 +474,13 @@ ARM Macro Assembler    Page 8
               00000000 
               E000ED04 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
-erwork --depend=.\output\os_cpu_a.d -o.\output\os_cpu_a.o -ID:\Çå»ª´óÑ§ÖÇÄÜ³µÍÅ
-¶Ó¿ª·¢\ÖØÆûÏîÄ¿\²âÊÔ´úÂë\Project\RVMDK(uv5)\RTE\_STM32F429 -IC:\Keil_v5\ARM\PAC
-K\ARM\CMSIS\5.0.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.5.0\
-Drivers\CMSIS\Device\ST\STM32F4xx\Include --predefine="__MICROLIB SETA 1" --pre
-define="__UVISION_VERSION SETA 522" --predefine="_RTE_ SETA 1" --predefine="STM
-32F429xx SETA 1" --list=.\listing\os_cpu_a.lst ..\..\User\uCOS-III\Ports\ARM-Co
-rtex-M4\Generic\RealView\os_cpu_a.asm
+erwork --depend=.\output\os_cpu_a.d -o.\output\os_cpu_a.o -I"D:\MY DOCUMENT\ÏîÄ
+¿×ÊÁÏ\20190702ÖØÆûÏîÄ¿\¹ù¶°Ð´µÄ¿ª·¢°å³ÌÐò£¬can×ª´®¿Ú\²âÊÔ´úÂë\Project\RVMDK(uv5
+)\RTE\_STM32F429" -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.0\CMSIS\Include -IC:\Keil
+_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+ --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 522" --pre
+define="_RTE_ SETA 1" --predefine="STM32F429xx SETA 1" --list=.\listing\os_cpu_
+a.lst ..\..\User\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu_a.asm
 
 
 

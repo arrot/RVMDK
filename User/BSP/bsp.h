@@ -78,6 +78,9 @@
 #include "bsp_led.h" 
 #include "bsp_can.h" 
 #include "bsp_rs232_usart.h"
+#include "bsp_key.h"
+#include "./tim/bsp_general_tim.h"
+#include "./AngularTransducer/AngularTransducer.h"
 /*
 *********************************************************************************************************
 *                                               CONSTANTS

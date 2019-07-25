@@ -7,6 +7,7 @@
 
 /*CAN硬件相关的定义*/
 #define CANx                       	CAN1
+#define CANx1                       CAN2
 #define CAN_CLK                     RCC_APB1Periph_CAN1
 /*接收中断号*/
 #define CAN_RX_IRQ									CAN1_RX0_IRQn

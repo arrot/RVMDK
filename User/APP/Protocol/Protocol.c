@@ -41,6 +41,7 @@ enum DownMsgType Msg_Process(uint8_t FrameNum,const uint8_t * DataIn, uint32_t *
 	{
 		//通过了校验和则修改为正确的数据并返回数据类型
 		*DataOut = (*(DataIn + 3) << 0)| (*(DataIn + 4) << 8)| (*(DataIn + 5) << 16)| (*(DataIn + 6) << 24);
+		
 		return (enum DownMsgType)*(DataIn + 2);
 	}
 	else//未通过校验和
