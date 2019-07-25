@@ -15,10 +15,10 @@
   *
   ******************************************************************************
   */
-#include <includes.h>
-#include "./can/bsp_can.h"
-#include "Protocol.h"
 
+#include "bsp_can.h"
+//全局变量
+CanRxMsg RxMessage;
 
 /*
  * 函数名：CAN_GPIO_Config
@@ -127,14 +127,10 @@ static void CAN_Filter_Config(void)
 	CAN_FilterInitStructure.CAN_FilterScale=CAN_FilterScale_16bit;	//筛选器位宽为单个32位。
 	/* 使能筛选器，按照标志的内容进行比对筛选，扩展ID不是如下的就抛弃掉，是的话，会存入FIFO0。 */
 
-//	CAN_FilterInitStructure.CAN_FilterIdHigh= ((((u32)0x0000)|CAN_ID_STD|CAN_RTR_DATA)&0xFFFF0000)>>16;		//要筛选的ID高位 
-//	CAN_FilterInitStructure.CAN_FilterIdLow= (((u32)0x0469)|CAN_ID_STD|CAN_RTR_DATA)&0xFFFF; //要筛选的ID低位 
-//	
-	CAN_FilterInitStructure.CAN_FilterIdHigh= 0;		//要筛选的ID高位 
-	CAN_FilterInitStructure.CAN_FilterIdLow= 0; //要筛选的ID低位 
-
+	CAN_FilterInitStructure.CAN_FilterIdHigh= ((((u32)0x0000)|CAN_ID_STD|CAN_RTR_DATA)&0xFFFF0000)>>16;		//要筛选的ID高位 
+	CAN_FilterInitStructure.CAN_FilterIdLow= (((u32)0x0469)|CAN_ID_STD|CAN_RTR_DATA)&0xFFFF; //要筛选的ID低位 
 	CAN_FilterInitStructure.CAN_FilterMaskIdHigh= 0x0000;			//筛选器高16位不使用
-	CAN_FilterInitStructure.CAN_FilterMaskIdLow= 0x0;			//筛选器低16位每位必须匹配
+	CAN_FilterInitStructure.CAN_FilterMaskIdLow= 0xffff;			//筛选器低16位每位必须匹配
 	CAN_FilterInitStructure.CAN_FilterFIFOAssignment=CAN_Filter_FIFO0 ;				//筛选器被关联到FIFO0
 	CAN_FilterInitStructure.CAN_FilterActivation=ENABLE;			//使能筛选器
 	CAN_FilterInit(&CAN_FilterInitStructure);
@@ -152,18 +148,42 @@ static void CAN_Filter_Config(void)
  */
 void CAN_Config(void)
 {
+	uint8_t Date_Tx[8] = {0};//测试CAN通信是否成功
+	
   CAN_GPIO_Config();
   CAN_NVIC_Config();
   CAN_Mode_Config();
-  CAN_Filter_Config();   
+  CAN_Filter_Config(); 
+  CAN_SendMes((const uint8_t *)Date_Tx,0x123);	
 }
 
 
 /**
-  * @brief  初始化 Rx Message数据结构体
-  * @param  RxMessage: 指向要初始化的数据结构体
+  * @brief  发送CAN消息
+  * @param  Date_Tx: 要发送的数据指针,指向一个8字节的数组
+  * @param  Id:帧ID 
   * @retval None
   */
+void CAN_SendMes(const uint8_t *Date_Tx,uint16_t Id)
+{
+	uint8_t i = 0;
+	CanTxMsg TxMessage;
+	//设置要发送的ID，数据长度等数据
+	TxMessage.StdId=Id;						 
+  //TxMessage.ExtId=Id;					 //使用的扩展ID
+  TxMessage.IDE=CAN_ID_STD;					 //扩展模式
+  TxMessage.RTR=CAN_RTR_DATA;				 //发送的是数据
+  TxMessage.DLC=8;							 //数据长度为8字节 
+	//设置要发送的数据
+	for (i = 0; i < 8; i++)
+  {
+    TxMessage.Data[i] = *Date_Tx++;
+  }
+	/*把报文存储到发送邮箱，发送*/
+	CAN_Transmit(CANx, &TxMessage);
+}
+
+
 void Init_RxMes(CanRxMsg *RxMessage)
 {
   uint8_t ubCounter = 0;
@@ -181,98 +201,8 @@ void Init_RxMes(CanRxMsg *RxMessage)
 }
 
 
-/*
- * 函数名：CAN_SetMsg
- * 描述  ：CAN通信报文内容设置,设置一个数据内容为0-7的数据包
- * 输入  ：无
- * 输出  : 无
- * 调用  ：外部调用
- */	
-	uint8_t Date[8] = {0};
-	uint16_t angle = 45;
-	uint8_t control_mode = 0x20,duizhong = 0x00;
-extern uint32_t Date_R;
-	extern CPU_INT08U GloDataUToC[12];
-void CAN_SetMsg(CanTxMsg *TxMessage)
-{	  
-	uint8_t i = 0;
-	
 
-//  Date[0] = (Date_R >> 0) & 0xff; //手动控制-0x10 ，自动控制-0x20
-//	Date[1] = (Date_R >> 8) & 0xff;
-//	Date[2] = (Date_R >> 16) & 0xff;
-//	Date[3] = (Date_R >> 24) & 0xff;
-//	Date[4] = (Date_R >> 0) & 0xff;
-//	Date[5] = (Date_R >> 8) & 0xff;
-//  Date[6] = (Date_R >> 16) & 0xff;
-//	Date[7] = (Date_R >> 24) & 0xff;	
-	
 
-  //TxMessage->StdId=0x469;						 
-  //TxMessage->ExtId=0x1314;					 //使用的扩展ID
-  TxMessage->IDE=CAN_ID_STD;					 //扩展模式
-  TxMessage->RTR=CAN_RTR_DATA;				 //发送的是数据
-  TxMessage->DLC=8;							 //数据长度为8字节
-	
-	/*设置要发送的数据0-7*/
-//	for (i = 0; i < 8; i++)
-//  {
-//    TxMessage->Data[i] = Date[i];
-//  }
-CPU_SR_ALLOC();
-			OS_CRITICAL_ENTER();
-			TxMessage->StdId=GloDataUToC[0] << 24 + GloDataUToC[1] << 16 + GloDataUToC[2] << 8 + GloDataUToC[0];
-for (i = 0; i < 8; i++)
-  {
-    TxMessage->Data[i] = GloDataUToC[i + 4];
-  }
-	OS_CRITICAL_EXIT();
-//OS_CRITICAL_EXIT();
-
-}
-
-CanRxMsg RxMessage;
-extern OS_MEM MyPartition;
-extern OS_TCB AppTaskUsartTxTCB;
-extern OS_TCB AppTaskUsartTxTCB1;
-CPU_INT08U *DataRx;
-OS_ERR err;
-void CAN_RX_IRQHandler(void)
-{
-	uint8_t i;
-	/*从邮箱中读出报文*/
-	CAN_Receive(CANx, CAN_FIFO0, &RxMessage);
-
-	/* 比较ID是否为0x1314 */ 
-	//if((RxMessage.ExtId==0x1314) && (RxMessage.IDE==CAN_ID_EXT) && (RxMessage.DLC==8) )
-		if((RxMessage.DLC==8) )
-	{
-		//RxMessage.StdId==0x1314
-		DataRx = (CPU_INT08U*)OSMemGet(&MyPartition,&err);//申请内存
-//		CPU_INT32S *test1;
-//		
-//		test1 = (CPU_INT32S*)OSMemGet(&MyPartition,&err);
-		*(DataRx+0) = (RxMessage.ExtId>>24) & 0xff;//地址高8位
-		*(DataRx+1) = (RxMessage.ExtId>>16) & 0xff;//地址次高8位
-		*(DataRx+2) = (RxMessage.ExtId>>8) & 0xff;//地址次次高8位
-		*(DataRx+3) = (RxMessage.ExtId>>0) & 0xff;//地址低8位
-		for(i=0;i<8;i++)
-		{
-			*(DataRx+4+i) =  RxMessage.Data[i];
-		}
-		//回收申请的内存单元
-		//OSMemPut (&MyPartition,DataRx,&err);
-		
-//		OS_TaskQPost(&AppTaskUsartTxTCB,(void*)DataRx,(OS_MSG_SIZE)12,OS_OPT_POST_FIFO,0,&err);
-		
-		OSTaskQPost(&AppTaskUsartTxTCB1,(void*)DataRx,(OS_MSG_SIZE)12,OS_OPT_POST_FIFO,&err);
-		//OS_TaskSemPost(&AppTaskUsartTxTCB,OS_OPT_NONE,(CPU_TS)0,&err);
-	}
-	else
-	{
-	 					   //接收失败
-	}
-}
 
 /**************************END OF FILE************************************/
 

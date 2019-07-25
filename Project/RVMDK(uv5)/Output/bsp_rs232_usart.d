@@ -1,5 +1,5 @@
 .\output\bsp_rs232_usart.o: ..\..\User\BSP\usart\bsp_rs232_usart.c
-.\output\bsp_rs232_usart.o: ..\..\User\BSP\./usart/bsp_rs232_usart.h
+.\output\bsp_rs232_usart.o: ..\..\User\BSP\usart\bsp_rs232_usart.h
 .\output\bsp_rs232_usart.o: ..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\output\bsp_rs232_usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.0\CMSIS\Include\core_cm4.h
 .\output\bsp_rs232_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -63,5 +63,5 @@
 .\output\bsp_rs232_usart.o: ..\..\User\BSP\bsp.h
 .\output\bsp_rs232_usart.o: ..\..\User\BSP\led\bsp_led.h
 .\output\bsp_rs232_usart.o: ..\..\User\BSP\can\bsp_can.h
-.\output\bsp_rs232_usart.o: ..\..\User\BSP\key\bsp_key.h
-.\output\bsp_rs232_usart.o: ..\..\User\BSP\./tim/bsp_general_tim.h
+.\output\bsp_rs232_usart.o: ..\..\User\APP\includes.h
+.\output\bsp_rs232_usart.o: ..\..\User\BSP\AngularTransducer\AngularTransducer.h

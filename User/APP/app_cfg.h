@@ -58,10 +58,8 @@
 
 #define  APP_TASK_LED1_PRIO                         3u
 #define  APP_TASK_LED2_PRIO                         3u
-#define  APP_TASK_LED3_PRIO                         3u
-#define  APP_TASK_CANTX_PRIO                        2u
-#define  APP_TASK_USART_PRIO                        3u
-#define  APP_TASK_USART_TX_PRIO                     3u
+#define  APP_TASK_ANGULAR_TRANSDUCER_PRIO           3u
+
 /*
 *********************************************************************************************************
 *                                            TASK STACK SIZES
@@ -70,14 +68,11 @@
 
 #define  APP_TASK_START_STK_SIZE                    128u
 
-#define  APP_TASK_LED1_STK_SIZE                     256u
-#define  APP_TASK_LED2_STK_SIZE                     256u
-#define  APP_TASK_LED3_STK_SIZE                     256u
-#define  APP_TASK_CANTX_STK_SIZE                    256u
-#define  APP_TASK_USART_STK_SIZE                    256u
-#define  APP_TASK_USART_TX_STK_SIZE                 256u
-#define  APP_TASK_USART1_TX_STK_SIZE                256u
-#define  APP_TASK_USART1_STK_SIZE                    256u
+#define  APP_TASK_LED1_STK_SIZE                     512u
+#define  APP_TASK_LED2_STK_SIZE                     512u
+#define  APP_TASK_ANGULAR_TRANSDUCER_STK_SIZE       512u
+
+
 /*
 *********************************************************************************************************
 *                                            TASK STACK SIZES LIMIT

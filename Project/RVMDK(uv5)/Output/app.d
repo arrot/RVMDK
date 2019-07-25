@@ -61,8 +61,7 @@
 .\output\app.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_ltdc.h
 .\output\app.o: ..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sai.h
 .\output\app.o: ..\..\User\BSP\led\bsp_led.h
-.\output\app.o: ..\..\User\BSP\can\bsp_can.h
 .\output\app.o: ..\..\User\BSP\usart\bsp_rs232_usart.h
-.\output\app.o: ..\..\User\BSP\key\bsp_key.h
-.\output\app.o: ..\..\User\BSP\./tim/bsp_general_tim.h
-.\output\app.o: ..\..\User\APP\Protocol\Protocol.h
+.\output\app.o: ..\..\User\BSP\can\bsp_can.h
+.\output\app.o: ..\..\User\APP\includes.h
+.\output\app.o: ..\..\User\BSP\AngularTransducer\AngularTransducer.h

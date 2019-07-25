@@ -29,9 +29,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_it.h"
-
-
-
+#include <includes.h>
+#include "app.h"
+#include "bsp.h"
 /** @addtogroup Template_Project
   * @{
   */
@@ -64,9 +64,9 @@ void NMI_Handler(void)
 void HardFault_Handler(void)
 {
   /* Go to infinite loop when Hard Fault exception occurs */
-//  while (1)
-//  {
-//  }
+  while (1)
+  {
+  }
 }
 
 /**
@@ -143,7 +143,40 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
 }
+/**
+  * @brief  This function handles CAN Rx Handler.
+  * @param  None
+  * @retval None
+  */
 
+CPU_INT08U *DataRx;
+
+void CAN_RX_IRQHandler(void)
+{
+	OS_ERR err;
+	CanRxMsg RxMessage;
+	uint8_t i;
+	/*从邮箱中读出报文*/
+	CAN_Receive(CANx, CAN_FIFO0, &RxMessage);
+
+	/* 比较ID是否为0x1314 */ 
+	if((RxMessage.ExtId==0x1314) && (RxMessage.IDE==CAN_ID_EXT) && (RxMessage.DLC==8) )
+	{
+		DataRx = (CPU_INT08U*)OSMemGet(&MyPartition,&err);
+		*(DataRx+0) = (RxMessage.ExtId>>8) & 0xff;//地址高8位
+		*(DataRx+1) = (RxMessage.ExtId>>0) & 0xff;//地址低8位
+		for(i=0;i<8;i++)
+		{
+			*(DataRx+2+i) =  RxMessage.Data[i];
+		}
+		OS_TaskQPost(&AppTaskUsartTxTCB,(void*)DataRx,(OS_MSG_SIZE)12,OS_OPT_POST_FIFO,0,&err);
+		//OS_TaskSemPost(&AppTaskUsartTxTCB,OS_OPT_NONE,(CPU_TS)0,&err);
+	}
+	else
+	{
+	 					   //接收失败
+	}
+}
 /******************************************************************************/
 /*                 STM32F4xx Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */

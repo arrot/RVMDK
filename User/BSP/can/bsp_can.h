@@ -3,11 +3,11 @@
 
 #include "stm32f4xx.h"
 #include <stdio.h>
+#include <includes.h>
 
 
 /*CAN硬件相关的定义*/
 #define CANx                       	CAN1
-#define CANx1                       CAN2
 #define CAN_CLK                     RCC_APB1Periph_CAN1
 /*接收中断号*/
 #define CAN_RX_IRQ									CAN1_RX0_IRQn
@@ -70,14 +70,14 @@
 
 
 
-
+extern CanRxMsg RxMessage;
 
 static void CAN_GPIO_Config(void);
 static void CAN_NVIC_Config(void);
 static void CAN_Mode_Config(void);
 static void CAN_Filter_Config(void);
 void CAN_Config(void);
-void CAN_SetMsg(CanTxMsg *TxMessage);
+void CAN_SendMes(const uint8_t *Date_Tx,uint16_t Id);
 void Init_RxMes(CanRxMsg *RxMessage);
 
 #endif

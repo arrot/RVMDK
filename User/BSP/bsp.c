@@ -246,16 +246,9 @@
 void  BSP_Init (void)
 {
 	LED_Init ();            //初始化 LED    
-	/*初始化can,在中断接收CAN数据包*/
+	USART_Config();
 	CAN_Config();
-	Debug_USART_Config();
-	//新串口需要重新初始化
-	Usart_SendString( RS232_USART, "初始化成功！！！");
-	Usart_SendString( RS232_USART1, "初始化成功3！！！");
-	//Usart_SendStr_length
-	key_init();
-	TIMx_Configuration();
-	TIM1_3_Configuration();
+	AngularTransducer_Config();
 }
 
 

@@ -15,7 +15,7 @@
         <TargetCommonOption>
           <Device>STM32F429IGTx</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F4xx_DFP.2.9.0</PackID>
+          <PackID>Keil.STM32F4xx_DFP.2.5.0</PackID>
           <PackURL>http://www.keil.com/pack</PackURL>
           <Cpu>IROM(0x08000000,0x100000) IRAM(0x20000000,0x30000) IRAM2(0x10000000,0x10000) CPUTYPE("Cortex-M4") FPU2 CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F429_439xx,USE_STDPERIPH_DRIVER,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\User;..\..\User\APP;..\..\User\BSP;..\..\User\BSP\led;..\..\User\uC-CPU;..\..\User\uC-CPU\ARM-Cortex-M4\RealView;..\..\User\uC-LIB;..\..\User\uCOS-III\Source;..\..\User\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView;..\..\User\BSP\can;..\..\User\BSP\usart;..\..\User\APP\Protocol;..\..\User\BSP\key;..\..\User\BSP\tim</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\User;..\..\User\APP;..\..\User\BSP;..\..\User\BSP\led;..\..\User\uC-CPU;..\..\User\uC-CPU\ARM-Cortex-M4\RealView;..\..\User\uC-LIB;..\..\User\uCOS-III\Source;..\..\User\uCOS-III\Ports\ARM-Cortex-M4\Generic\RealView;..\..\User\BSP\usart;..\..\User\BSP\can;..\..\User\APP;..\..\User\BSP\AngularTransducer</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -719,11 +719,6 @@
               <FileType>5</FileType>
               <FilePath>..\..\User\APP\os_cfg_app.h</FilePath>
             </File>
-            <File>
-              <FileName>Protocol.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\APP\Protocol\Protocol.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -745,24 +740,19 @@
               <FilePath>..\..\User\BSP\led\bsp_led.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_can.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\User\BSP\can\bsp_can.c</FilePath>
-            </File>
-            <File>
               <FileName>bsp_rs232_usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\BSP\usart\bsp_rs232_usart.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_key.c</FileName>
+              <FileName>bsp_can.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\BSP\key\bsp_key.c</FilePath>
+              <FilePath>..\..\User\BSP\can\bsp_can.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_general_tim.c</FileName>
+              <FileName>AngularTransducer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\User\BSP\tim\bsp_general_tim.c</FilePath>
+              <FilePath>..\..\User\BSP\AngularTransducer\AngularTransducer.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -34,16 +34,8 @@ static void LED_GPIO_Config ( void )
 	/* 配置 LED3 引脚 */
 	macLED2_GPIO_xClock_FUN ( macLED3_GPIO_CLK, ENABLE ); 															   
 	GPIO_InitStructure.GPIO_Pin = macLED3_GPIO_PIN;	
-	GPIO_Init ( macLED3_GPIO_PORT, & GPIO_InitStructure );
-
-//第1步，设置PA4的初始化
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA,ENABLE);//使能时钟
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;	//选择引脚
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT; //输出信号  
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;//推挽方式
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;//上拉电阻
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;//速率
-	GPIO_Init ( GPIOA, & GPIO_InitStructure );	//  		
+	GPIO_Init ( macLED3_GPIO_PORT, & GPIO_InitStructure );		
+	  		
 }
 
 
