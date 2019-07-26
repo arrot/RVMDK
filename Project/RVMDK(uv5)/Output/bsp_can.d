@@ -68,3 +68,5 @@
 .\output\bsp_can.o: ..\..\User\BSP\speed\bsp_speed.h
 .\output\bsp_can.o: ..\..\User\APP\includes.h
 .\output\bsp_can.o: ..\..\User\BSP\PWM\bsp_PWM.h
+.\output\bsp_can.o: ..\..\User\BSP\adc\bsp_adc.h
+.\output\bsp_can.o: ..\..\User\BSP\dac\bsp_dac.h

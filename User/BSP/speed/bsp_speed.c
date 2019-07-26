@@ -80,7 +80,33 @@ void Relay_Init ( void )
 	RELAY7_OFF();
 	RELAY8_OFF();
 }
-
+/**
+  * @brief  设置车速
+  * @param  Speed- -99——+99，负值时是倒挡，正值时前进挡
+  * @retval 无
+  */
+extern uint32_t DualSine12bit;
+void CarSpeedSet(int8_t Speed)
+{
+	//检查参数的合理性
+	if(Speed>99)
+		Speed = 99;
+	if(Speed<-99)
+		Speed = -99;
+	
+	if(Speed>0)//前进档
+	{
+		//闭合前进挡位的继电器
+	}
+	else//后退挡
+	{
+		Speed = 0-Speed;
+		//闭合后退挡位的继电器
+	}
+	//设置DAC的输出
+	
+	DualSine12bit = Speed*4096.0/100.0;
+}
 
 
 /*********************************************END OF FILE**********************/

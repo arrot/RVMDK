@@ -251,12 +251,10 @@ void  BSP_Init (void)
 	AngularTransducer_Config();
 	Relay_Init();
 	Motor_Configuration();
+	BRK_POS_Init();
+	SPEED_DAC_Mode_Init();
 	
-	TurnMotorSpeedSet(50);
-	BRK_MotorSpeedSet(50);
-	BRK_MotorSpeedSet(0);
-	BRK_MotorSpeedSet(-100);
-	BRK_MotorSpeedSet(0);
+	
 }
 
 

@@ -67,3 +67,5 @@
 .\output\bsp_rs232_usart.o: ..\..\User\BSP\AngularTransducer\AngularTransducer.h
 .\output\bsp_rs232_usart.o: ..\..\User\BSP\speed\bsp_speed.h
 .\output\bsp_rs232_usart.o: ..\..\User\BSP\PWM\bsp_PWM.h
+.\output\bsp_rs232_usart.o: ..\..\User\BSP\adc\bsp_adc.h
+.\output\bsp_rs232_usart.o: ..\..\User\BSP\dac\bsp_dac.h

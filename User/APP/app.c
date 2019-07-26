@@ -226,7 +226,8 @@ static  void  AppTaskStart (void *p_arg)
 *                                          LED1 TASK
 *********************************************************************************************************
 */
-
+int8_t TurnMotorSpeed = 0,BRK_MotorSpeed = 0;
+int8_t speed = 0;
 static  void  AppTaskLed1 ( void * p_arg )
 {
     OS_ERR      err;
@@ -237,7 +238,10 @@ static  void  AppTaskLed1 ( void * p_arg )
 
     while (DEF_TRUE) {                                          /* Task body, always written as an infinite loop.       */
 			//macLED1_TOGGLE ();
-			OSTimeDly ( 1000, OS_OPT_TIME_DLY, & err );
+			TurnMotorSpeedSet(TurnMotorSpeed);
+			BRK_MotorSpeedSet(BRK_MotorSpeed);
+			CarSpeedSet(speed);
+			OSTimeDly ( 10, OS_OPT_TIME_DLY, & err );
     }
 		
 		

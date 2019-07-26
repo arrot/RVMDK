@@ -115,7 +115,7 @@ static void PWMOUTPUT_Config(void)
 
   /* 累计 TIM_Period个后产生一个更新或者中断*/		
   //当定时器从0计数到8999，即为9000次，为一个定时周期
-  TIM_TimeBaseStructure.TIM_Period = 9000-1;       
+  TIM_TimeBaseStructure.TIM_Period = 10000;       
 	
 	// 高级控制定时器时钟源TIMxCLK = HCLK/2=90MHz 
 	// 设定定时器频率为=TIMxCLK/(TIM_Prescaler+1)=100KHz
@@ -169,10 +169,10 @@ uint16_t BRK_MotorSpeedSet(int8_t Speed)
 {
 	uint16_t Duty = 0;
 	//检查参数的合法性
-	if(Speed > 95)
-		Speed = 95;
-	if(Speed < -95)
-		Speed = -95;
+	if(Speed > 99)
+		Speed = 99;
+	if(Speed < -99)
+		Speed = -99;
 	
 	if(Speed < 0)//电机电压为正值
 	{
@@ -183,10 +183,10 @@ uint16_t BRK_MotorSpeedSet(int8_t Speed)
 	{
 		DIR_BRK_P;
 	}
-	Duty = (uint16_t)(Speed*90);
-	if(Duty>8999)
+	Duty = (uint16_t)(Speed*100);
+	if(Duty>9900)
 	{
-		Duty = 9000-1;
+		Duty = 9900;
 	}
 	TIM_SetCompare2(PWM_TIM, Duty);
 	return Duty;
@@ -200,10 +200,10 @@ uint16_t TurnMotorSpeedSet(int8_t Speed)
 {
 	uint16_t Duty = 0;
 	//检查参数的合法性
-	if(Speed > 95)
-		Speed = 95;
-	if(Speed < -95)
-		Speed = -95;
+	if(Speed > 99)
+		Speed = 99;
+	if(Speed < -99)
+		Speed = -99;
 	
 	if(Speed < 0)
 	{
@@ -214,10 +214,10 @@ uint16_t TurnMotorSpeedSet(int8_t Speed)
 	{
 		DIR_TURN_P;
 	}
-	Duty = (uint16_t)(Speed*45);
-	if(Duty>8999)
+	Duty = (uint16_t)(Speed*100);
+	if(Duty>9900)
 	{
-		Duty = 8999;
+		Duty = 9900;
 	}
 	TIM_SetCompare3(PWM_TIM, Duty);
 	return Duty;

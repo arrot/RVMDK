@@ -81,6 +81,8 @@
 #include "AngularTransducer.h"
 #include "bsp_speed.h"
 #include "bsp_PWM.h"
+#include "bsp_adc.h"
+#include "bsp_dac.h"
 /*
 *********************************************************************************************************
 *                                               CONSTANTS

@@ -9,7 +9,7 @@
 #define             RELAY1_GPIO_xClock_FUN                 RCC_AHB1PeriphClockCmd
 #define             RELAY1_GPIO_CLK                        RCC_AHB1Periph_GPIOA
 #define             RELAY1_GPIO_PORT                       GPIOA
-#define             RELAY1_GPIO_PIN                        GPIO_Pin_4
+#define             RELAY1_GPIO_PIN                        GPIO_Pin_9
 
 #define             RELAY2_GPIO_xClock_FUN                 RCC_AHB1PeriphClockCmd
 #define             RELAY2_GPIO_CLK                        RCC_AHB1Periph_GPIOA
@@ -92,7 +92,7 @@
 /****************************** LED º¯ÊýÉùÃ÷ ***************************************/
 void                               Relay_Init                         ( void );
  
- 
+void CarSpeedSet(int8_t Speed);
 
 
 

@@ -67,3 +67,5 @@
 .\output\app.o: ..\..\User\BSP\AngularTransducer\AngularTransducer.h
 .\output\app.o: ..\..\User\BSP\speed\bsp_speed.h
 .\output\app.o: ..\..\User\BSP\PWM\bsp_PWM.h
+.\output\app.o: ..\..\User\BSP\adc\bsp_adc.h
+.\output\app.o: ..\..\User\BSP\dac\bsp_dac.h
