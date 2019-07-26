@@ -79,6 +79,8 @@
 #include "bsp_rs232_usart.h"
 #include "bsp_can.h"
 #include "AngularTransducer.h"
+#include "bsp_speed.h"
+#include "bsp_PWM.h"
 /*
 *********************************************************************************************************
 *                                               CONSTANTS

@@ -184,7 +184,7 @@ void  TIM1_TIM_IRQHandler (void)
 			Duty = (Value_1 * 100) / Value_3;
 			if((Duty<=87.5)&&(Duty>=12.5))//检查占空比是否在12.5-87.5之间,从而屏蔽硬件的不稳定性
 			{
-				macLED2_TOGGLE();
+				//macLED2_TOGGLE();
 				Angle_1 = (Duty-12.5)*360.0/(87.5-12.5);
 			}
 		}

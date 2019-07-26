@@ -65,3 +65,5 @@
 .\output\bsp.o: ..\..\User\APP\app_cfg.h
 .\output\bsp.o: ..\..\User\BSP\bsp.h
 .\output\bsp.o: ..\..\User\BSP\AngularTransducer\AngularTransducer.h
+.\output\bsp.o: ..\..\User\BSP\speed\bsp_speed.h
+.\output\bsp.o: ..\..\User\BSP\PWM\bsp_PWM.h

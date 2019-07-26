@@ -249,6 +249,14 @@ void  BSP_Init (void)
 	USART_Config();
 	CAN_Config();
 	AngularTransducer_Config();
+	Relay_Init();
+	Motor_Configuration();
+	
+	TurnMotorSpeedSet(50);
+	BRK_MotorSpeedSet(50);
+	BRK_MotorSpeedSet(0);
+	BRK_MotorSpeedSet(-100);
+	BRK_MotorSpeedSet(0);
 }
 
 

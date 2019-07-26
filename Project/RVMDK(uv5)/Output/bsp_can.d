@@ -65,3 +65,6 @@
 .\output\bsp_can.o: ..\..\User\BSP\usart\bsp_rs232_usart.h
 .\output\bsp_can.o: ..\..\User\BSP\can\bsp_can.h
 .\output\bsp_can.o: ..\..\User\BSP\AngularTransducer\AngularTransducer.h
+.\output\bsp_can.o: ..\..\User\BSP\speed\bsp_speed.h
+.\output\bsp_can.o: ..\..\User\APP\includes.h
+.\output\bsp_can.o: ..\..\User\BSP\PWM\bsp_PWM.h

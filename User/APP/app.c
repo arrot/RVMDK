@@ -218,8 +218,6 @@ static  void  AppTaskStart (void *p_arg)
 		
 		
 		OSTaskDel ( & AppTaskStartTCB, & err );
-		
-		
 }
 
 
