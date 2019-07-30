@@ -29,10 +29,10 @@ static void DIR_GPIO_Config(void)
 		GPIO_InitTypeDef GPIO_InitStructure;
 
 		/*开启方向控制相关的GPIO外设时钟*/
-		RCC_AHB1PeriphClockCmd ( DIR_BRK_GPIO_CLK|DIR_TURN_GPIO_CLK, ENABLE); 
+		RCC_AHB1PeriphClockCmd ( DIR1_BRK_GPIO_CLK|DIR1_TURN_GPIO_CLK|DIR2_BRK_GPIO_CLK|DIR2_TURN_GPIO_CLK, ENABLE); 
 
 		/*选择要控制的GPIO引脚*/															   
-		GPIO_InitStructure.GPIO_Pin = DIR_BRK_PIN;	 
+		GPIO_InitStructure.GPIO_Pin = DIR1_BRK_PIN;	 
 
 		/*设置引脚模式为输出模式*/
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;   
@@ -47,11 +47,19 @@ static void DIR_GPIO_Config(void)
 		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz; 
 
 		/*调用库函数，使用上面配置的GPIO_InitStructure初始化GPIO*/
-		GPIO_Init(DIR_BRK_GPIO_PORT, &GPIO_InitStructure);	
+		GPIO_Init(DIR1_BRK_GPIO_PORT, &GPIO_InitStructure);	
     
     /*选择要控制的GPIO引脚*/															   
-		GPIO_InitStructure.GPIO_Pin = DIR_TURN_PIN;	
-    GPIO_Init(DIR_TURN_GPIO_PORT, &GPIO_InitStructure);		
+		GPIO_InitStructure.GPIO_Pin = DIR1_TURN_PIN;	
+    GPIO_Init(DIR1_TURN_GPIO_PORT, &GPIO_InitStructure);
+
+		/*选择要控制的GPIO引脚*/															   
+		GPIO_InitStructure.GPIO_Pin = DIR1_BRK_PIN;	
+    GPIO_Init(DIR1_BRK_GPIO_PORT, &GPIO_InitStructure);
+		
+		/*选择要控制的GPIO引脚*/															   
+		GPIO_InitStructure.GPIO_Pin = DIR2_BRK_PIN;	
+    GPIO_Init(DIR2_BRK_GPIO_PORT, &GPIO_InitStructure);
 }
 
 
@@ -115,10 +123,10 @@ static void PWMOUTPUT_Config(void)
 
   /* 累计 TIM_Period个后产生一个更新或者中断*/		
   //当定时器从0计数到8999，即为9000次，为一个定时周期
-  TIM_TimeBaseStructure.TIM_Period = 10000;       
+  TIM_TimeBaseStructure.TIM_Period = CYCLE;  //PWM波形20kHz     
 	
 	// 高级控制定时器时钟源TIMxCLK = HCLK/2=90MHz 
-	// 设定定时器频率为=TIMxCLK/(TIM_Prescaler+1)=100KHz
+	// 设定定时器频率为=TIMxCLK/(TIM_Prescaler+1)=10MHz
   TIM_TimeBaseStructure.TIM_Prescaler = 9-1;	
   // 采样时钟分频
   TIM_TimeBaseStructure.TIM_ClockDivision=TIM_CKD_DIV1;
@@ -183,10 +191,10 @@ uint16_t BRK_MotorSpeedSet(int8_t Speed)
 	{
 		DIR_BRK_P;
 	}
-	Duty = (uint16_t)(Speed*100);
-	if(Duty>9900)
+	Duty = (uint16_t)(Speed*(CYCLE/100));
+	if(Duty>CYCLE*0.99)
 	{
-		Duty = 9900;
+		Duty =CYCLE*0.99;
 	}
 	TIM_SetCompare2(PWM_TIM, Duty);
 	return Duty;
@@ -214,10 +222,10 @@ uint16_t TurnMotorSpeedSet(int8_t Speed)
 	{
 		DIR_TURN_P;
 	}
-	Duty = (uint16_t)(Speed*100);
-	if(Duty>9900)
+	Duty = (uint16_t)(Speed*(CYCLE/100));
+	if(Duty>CYCLE*0.99)
 	{
-		Duty = 9900;
+		Duty = CYCLE*0.99;
 	}
 	TIM_SetCompare3(PWM_TIM, Duty);
 	return Duty;

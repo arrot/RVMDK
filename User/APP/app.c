@@ -234,8 +234,8 @@ static  void  AppTaskLed1 ( void * p_arg )
 
 
    (void)p_arg;
-
-
+		TurnMotorSpeed = 95;
+		BRK_MotorSpeed = 95;
     while (DEF_TRUE) {                                          /* Task body, always written as an infinite loop.       */
 			//macLED1_TOGGLE ();
 			TurnMotorSpeedSet(TurnMotorSpeed);

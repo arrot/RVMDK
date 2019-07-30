@@ -3,21 +3,28 @@
 
 #include "stm32f4xx.h"
 /*
-1号电机对应制动电机
-2号电机对应转向电机
+制动电机 A号
+转向电机 B号
 */
 //控制电机方向的引脚定义
 /*******************************************************/
 //转向电机方向控制引脚的宏定义
-#define DIR_TURN_PIN                  GPIO_Pin_2                 
-#define DIR_TURN_GPIO_PORT            GPIOD                     
-#define DIR_TURN_GPIO_CLK             RCC_AHB1Periph_GPIOD
+#define DIR1_TURN_PIN                  GPIO_Pin_2                 
+#define DIR1_TURN_GPIO_PORT            GPIOD                     
+#define DIR1_TURN_GPIO_CLK             RCC_AHB1Periph_GPIOD
+
+#define DIR2_TURN_PIN                  GPIO_Pin_12                 
+#define DIR2_TURN_GPIO_PORT            GPIOC                     
+#define DIR2_TURN_GPIO_CLK             RCC_AHB1Periph_GPIOC
 
 //制动电机方向控制引脚的宏定义
-#define DIR_BRK_PIN                  GPIO_Pin_8               
-#define DIR_BRK_GPIO_PORT            GPIOC                    
-#define DIR_BRK_GPIO_CLK             RCC_AHB1Periph_GPIOC
+#define DIR1_BRK_PIN                  GPIO_Pin_8               
+#define DIR1_BRK_GPIO_PORT            GPIOC                    
+#define DIR1_BRK_GPIO_CLK             RCC_AHB1Periph_GPIOC
 
+#define DIR2_BRK_PIN                  GPIO_Pin_9               
+#define DIR2_BRK_GPIO_PORT            GPIOC                    
+#define DIR2_BRK_GPIO_CLK             RCC_AHB1Periph_GPIOC
 /************************************************************/
 /* 直接操作寄存器的方法控制IO */
 #define	digitalHi(p,i)			  {p->BSRRL=i;}			  //设置为高电平		
@@ -28,13 +35,13 @@
 #define DIR_N                  0
 
 /* 定义制动电机方向的IO宏 */
-#define DIR_BRK_TOGGLE		digitalToggle(DIR_BRK_GPIO_PORT,DIR_BRK_PIN)
-#define DIR_BRK_P		      digitalHi    (DIR_BRK_GPIO_PORT,DIR_BRK_PIN)
-#define DIR_BRK_N			    digitalLo    (DIR_BRK_GPIO_PORT,DIR_BRK_PIN)
+#define DIR_BRK_TOGGLE		digitalToggle(DIR1_BRK_GPIO_PORT,DIR1_BRK_PIN);digitalToggle(DIR2_BRK_GPIO_PORT,DIR2_BRK_PIN);
+#define DIR_BRK_P		      digitalHi    (DIR1_BRK_GPIO_PORT,DIR1_BRK_PIN);digitalLo    (DIR2_BRK_GPIO_PORT,DIR2_BRK_PIN)
+#define DIR_BRK_N			    digitalLo    (DIR1_BRK_GPIO_PORT,DIR1_BRK_PIN);digitalHi    (DIR2_BRK_GPIO_PORT,DIR2_BRK_PIN)
 /* 定义转向电机方向的IO宏 */
-#define DIR_TURN_TOGGLE		digitalToggle(DIR_TURN_GPIO_PORT,DIR_TURN_PIN)
-#define DIR_TURN_P		    digitalHi    (DIR_TURN_GPIO_PORT,DIR_TURN_PIN)
-#define DIR_TURN_N			  digitalLo    (DIR_TURN_GPIO_PORT,DIR_TURN_PIN)
+#define DIR_TURN_TOGGLE		digitalToggle(DIR1_TURN_GPIO_PORT,DIR1_TURN_PIN);digitalToggle(DIR2_TURN_GPIO_PORT,DIR2_TURN_PIN)
+#define DIR_TURN_P		    digitalHi    (DIR1_TURN_GPIO_PORT,DIR1_TURN_PIN);digitalLo    (DIR2_TURN_GPIO_PORT,DIR2_TURN_PIN)
+#define DIR_TURN_N			  digitalLo    (DIR1_TURN_GPIO_PORT,DIR1_TURN_PIN);digitalHi    (DIR2_TURN_GPIO_PORT,DIR2_TURN_PIN)
 
 /******************  控制制动电机 **********************/
 #define BRK_OCPWM_PIN             GPIO_Pin_1              
@@ -55,6 +62,8 @@
 
 #define PWM_TIM_IRQn					    TIM2_IRQn
 #define PWM_TIM_IRQHandler        TIM2_IRQHandler
+
+#define CYCLE                     500
 
 
 void Motor_Configuration(void);
