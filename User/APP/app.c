@@ -222,7 +222,7 @@ static  void  AppTaskStart (void *p_arg)
 
 /*
 *********************************************************************************************************
-*                                          LED1 TASK
+*                                          TurnMotor TASK
 *********************************************************************************************************
 */
 uint8_t speed = 0;
@@ -231,25 +231,20 @@ int32_t PositionSet = 0;
 static  void  AppTaskTurnMotor ( void * p_arg )
 {
     OS_ERR      err;
-
-
    (void)p_arg;
     while (DEF_TRUE) {                                          /* Task body, always written as an infinite loop.       */
-			//macLED1_TOGGLE ();
 			TurnMotorPositionControl((int32_t)Angle,PositionSet);
 			OSTimeDly ( 10, OS_OPT_TIME_DLY, & err );
-    }
-		
-		
+    }	
 }
 
 
 /*
 *********************************************************************************************************
-*                                          LED2 TASK
+*                                          BRK_Motor TASK
 *********************************************************************************************************
 */
-int32_t BRK_MotorPositionSet = 0;
+uint8_t BRK_MotorPositionSet = 0;
 static  void  AppTaskBRK_Motor ( void * p_arg )
 {
     OS_ERR      err;
@@ -259,8 +254,8 @@ static  void  AppTaskBRK_Motor ( void * p_arg )
 
 
     while (DEF_TRUE) {                                          /* Task body, always written as an infinite loop.       */
-			BRKMotorPositionControl(ADC_ConvertedValue,BRK_MotorPositionSet);
-			OSTimeDly ( 5000, OS_OPT_TIME_DLY, & err );
+			BRKMotorPositionControl((uint8_t)(ADC_ConvertedValue*100/4096),BRK_MotorPositionSet);
+			OSTimeDly ( 10, OS_OPT_TIME_DLY, & err );
     }
 		
 		

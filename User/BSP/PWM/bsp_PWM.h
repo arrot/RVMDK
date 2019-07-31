@@ -71,7 +71,7 @@
 void Motor_Configuration(void);
 uint16_t TurnMotorSpeedSet(int8_t Speed);
 uint16_t BRK_MotorSpeedSet(int8_t Speed);
-uint8_t BRKMotorPositionControl(int8_t Position,int32_t PositionSet);
+uint8_t BRKMotorPositionControl(uint8_t Position,uint8_t PositionSet);
 uint8_t TurnMotorPositionControl(int32_t Position,int32_t PositionSet);
 #endif /* __GENERAL_TIM_H */
 

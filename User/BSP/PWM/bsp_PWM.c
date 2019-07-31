@@ -287,7 +287,7 @@ uint8_t TurnMotorPositionControl(int32_t Position,int32_t PositionSet)
 @param:Position-当前制动的位置，PositionSet-制动位置的设定值 PositionSet 0-100 数值越大力度越大
 @return:1-成功  0-失败
 */
-uint8_t BRKMotorPositionControl(int8_t Position,int32_t PositionSet)
+uint8_t BRKMotorPositionControl(uint8_t Position,uint8_t PositionSet)
 {
 	static uint8_t Mode = 0;//控制模式0-停止模式  1-前进模式   2-后退模式
 	switch (Mode)
