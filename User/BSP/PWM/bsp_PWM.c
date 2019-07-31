@@ -17,7 +17,7 @@
   */
   
 #include "bsp_PWM.h"
-
+#include <stdlib.h>
 /**
   * @brief  初始化控制电机方向的IO
   * @param  无
@@ -230,5 +230,108 @@ uint16_t TurnMotorSpeedSet(int8_t Speed)
 	TIM_SetCompare3(PWM_TIM, Duty);
 	return Duty;
 }
+/*
+@notic:调用周期为10ms，设电机速度为正时电机位置增加
+@brief:转向电机的位置控制系统
+@param:Position-当前转向的位置，PositionSet-转向位置的设定值 单位为°
+@return:1-成功  0-失败
+*/
+uint8_t TurnMotorPositionControl(int32_t Position,int32_t PositionSet)
+{
+	static uint8_t Mode = 0;//控制模式0-停止模式  1-前进模式   2-后退模式
+	switch (Mode)
+	{
+		case 0: //停止模式
+		{
+			TurnMotorSpeedSet(0);
+			if((PositionSet - Position) > TURN_THRESHOLD_POS)
+			{
+				TurnMotorSpeedSet(100);
+				Mode = 1;//下一次控制进入前进模式控制
+			}
+			if((PositionSet - Position) < -TURN_THRESHOLD_POS)
+			{
+				TurnMotorSpeedSet(-100);
+				Mode = 2;//下一次控制进入后退模式控制
+			}		
+			return 1;
+		}
+		case 1: //前进模式
+		{
+			if(Position > (PositionSet - TURN_THRESHOLD_POS))
+			{
+				TurnMotorSpeedSet(0);
+				Mode = 0;//下一次控制进入停止模式
+			}
+				
+			return 1;
+		}			
+		case 2: //后退模式
+		{
+			if(Position < (PositionSet + TURN_THRESHOLD_POS))
+			{
+				TurnMotorSpeedSet(0);
+				Mode = 0;//下一次控制进入停止模式
+			}
+			return 1;
+		}
+		default:
+		{
+			return 0;
+		}
+	}
+}
+/*
+@notic:调用周期为10ms，设电机速度为正时电机位置增加
+@brief:制动电机的位置控制系统
+@param:Position-当前制动的位置，PositionSet-制动位置的设定值 PositionSet 0-100 数值越大力度越大
+@return:1-成功  0-失败
+*/
+uint8_t BRKMotorPositionControl(int8_t Position,int32_t PositionSet)
+{
+	static uint8_t Mode = 0;//控制模式0-停止模式  1-前进模式   2-后退模式
+	switch (Mode)
+	{
+		case 0: //停止模式
+		{
+			BRK_MotorSpeedSet(0);
+			if((PositionSet - Position) > BRK_THRESHOLD_POS)
+			{
+				BRK_MotorSpeedSet(100);
+				Mode = 1;//下一次控制进入前进模式控制
+			}
+			if((PositionSet - Position) < -BRK_THRESHOLD_POS)
+			{
+				BRK_MotorSpeedSet(-100);
+				Mode = 2;//下一次控制进入后退模式控制
+			}		
+			return 1;
+		}
+		case 1: //前进模式
+		{
+			if(Position > (PositionSet - BRK_THRESHOLD_POS))
+			{
+				BRK_MotorSpeedSet(0);
+				Mode = 0;//下一次控制进入停止模式
+			}
+				
+			return 1;
+		}			
+		case 2: //后退模式
+		{
+			if(Position < (PositionSet + BRK_THRESHOLD_POS))
+			{
+				BRK_MotorSpeedSet(0);
+				Mode = 0;//下一次控制进入停止模式
+			}
+			return 1;
+		}
+		default:
+		{
+			return 0;
+		}
+	}
+}
+
 
 /*********************************************END OF FILE**********************/

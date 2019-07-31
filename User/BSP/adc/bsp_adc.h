@@ -22,7 +22,7 @@
 #define BRK_POS_ADC_DMA_STREAM   DMA2_Stream0
 
 
-
+extern __IO uint16_t ADC_ConvertedValue;
 void BRK_POS_Init(void);
 
 #endif /* __BSP_ADC_H */

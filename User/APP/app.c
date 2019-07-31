@@ -35,8 +35,8 @@
 */
 
 #include <includes.h>
-
-
+//全局变量
+double Angle = 0;
 /*
 *********************************************************************************************************
 *                                            LOCAL DEFINES
@@ -51,8 +51,8 @@
 
 static  OS_TCB   AppTaskStartTCB;
 
-static  OS_TCB   AppTaskLed1TCB;
-static  OS_TCB   AppTaskLed2TCB;
+static  OS_TCB   AppTaskTurnMotorTCB;//转向电机的控制
+static  OS_TCB   AppTaskBRK_MotorTCB;//制动电机的控制
 static  OS_TCB   AppTaskAngularTransducerTCB;
 
 OS_TCB	 AppTaskUsartTCB;
@@ -64,9 +64,8 @@ OS_TCB   AppTaskUsartTxTCB;
 */
 
 static  CPU_STK  AppTaskStartStk[APP_TASK_START_STK_SIZE];
-
-static  CPU_STK  AppTaskLed1Stk [ APP_TASK_LED1_STK_SIZE ];
-static  CPU_STK  AppTaskLed2Stk [ APP_TASK_LED2_STK_SIZE ];
+static  CPU_STK  AppTaskTurnMotorStk [ APP_TASK_TURN_MOTOR_STK_SIZE ];
+static  CPU_STK  AppTaskBRK_MotorStk [ APP_TASK_BRK_MOTOR_STK_SIZE ];
 static  CPU_STK  AppTaskAngularTransducerStk [ APP_TASK_ANGULAR_TRANSDUCER_STK_SIZE ];
 
 
@@ -78,8 +77,8 @@ static  CPU_STK  AppTaskAngularTransducerStk [ APP_TASK_ANGULAR_TRANSDUCER_STK_S
 
 static  void  AppTaskStart  (void *p_arg);
 
-static  void  AppTaskLed1  ( void * p_arg );
-static  void  AppTaskLed2  ( void * p_arg );
+static  void  AppTaskTurnMotor  ( void * p_arg );
+static  void  AppTaskBRK_Motor  ( void * p_arg );
 static  void  AppTaskAngularTransducer  ( void * p_arg );
 
 
@@ -173,28 +172,28 @@ static  void  AppTaskStart (void *p_arg)
 								(OS_MEM_SIZE)100,
 								(OS_ERR*)&err);
 								
-    OSTaskCreate((OS_TCB     *)&AppTaskLed1TCB,                /* Create the Led1 task                                */
-                 (CPU_CHAR   *)"App Task Led1",
-                 (OS_TASK_PTR ) AppTaskLed1,
+    OSTaskCreate((OS_TCB     *)&AppTaskTurnMotorTCB,                /* Create the Led1 task                                */
+                 (CPU_CHAR   *)"App Task TurnMotor",
+                 (OS_TASK_PTR ) AppTaskTurnMotor,
                  (void       *) 0,
-                 (OS_PRIO     ) APP_TASK_LED1_PRIO,
-                 (CPU_STK    *)&AppTaskLed1Stk[0],
-                 (CPU_STK_SIZE) APP_TASK_LED1_STK_SIZE / 10,
-                 (CPU_STK_SIZE) APP_TASK_LED1_STK_SIZE,
+                 (OS_PRIO     ) APP_TASK_TURN_MOTOR_PRIO,
+                 (CPU_STK    *)&AppTaskTurnMotorStk[0],
+                 (CPU_STK_SIZE) APP_TASK_TURN_MOTOR_STK_SIZE / 10,
+                 (CPU_STK_SIZE) APP_TASK_TURN_MOTOR_STK_SIZE,
                  (OS_MSG_QTY  ) 5u,
                  (OS_TICK     ) 0u,
                  (void       *) 0,
                  (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
                  (OS_ERR     *)&err);
 								 
-    OSTaskCreate((OS_TCB     *)&AppTaskLed2TCB,                /* Create the Led2 task                                */
-                 (CPU_CHAR   *)"App Task Led2",
-                 (OS_TASK_PTR ) AppTaskLed2,
+    OSTaskCreate((OS_TCB     *)&AppTaskBRK_MotorTCB,                /* Create the Led2 task                                */
+                 (CPU_CHAR   *)"App Task BRK_Motor",
+                 (OS_TASK_PTR ) AppTaskBRK_Motor,
                  (void       *) 0,
-                 (OS_PRIO     ) APP_TASK_LED2_PRIO,
-                 (CPU_STK    *)&AppTaskLed2Stk[0],
-                 (CPU_STK_SIZE) APP_TASK_LED2_STK_SIZE / 10,
-                 (CPU_STK_SIZE) APP_TASK_LED2_STK_SIZE,
+                 (OS_PRIO     ) APP_TASK_BRK_MOTOR_PRIO,
+                 (CPU_STK    *)&AppTaskBRK_MotorStk[0],
+                 (CPU_STK_SIZE) APP_TASK_BRK_MOTOR_STK_SIZE / 10,
+                 (CPU_STK_SIZE) APP_TASK_BRK_MOTOR_STK_SIZE,
                  (OS_MSG_QTY  ) 5u,
                  (OS_TICK     ) 0u,
                  (void       *) 0,
@@ -226,21 +225,18 @@ static  void  AppTaskStart (void *p_arg)
 *                                          LED1 TASK
 *********************************************************************************************************
 */
-int8_t TurnMotorSpeed = 0,BRK_MotorSpeed = 0;
-int8_t speed = 0;
-static  void  AppTaskLed1 ( void * p_arg )
+uint8_t speed = 0;
+uint8_t Mode = MANUAL_CONTROL;
+int32_t PositionSet = 0;
+static  void  AppTaskTurnMotor ( void * p_arg )
 {
     OS_ERR      err;
 
 
    (void)p_arg;
-		TurnMotorSpeed = 95;
-		BRK_MotorSpeed = 95;
     while (DEF_TRUE) {                                          /* Task body, always written as an infinite loop.       */
 			//macLED1_TOGGLE ();
-			TurnMotorSpeedSet(TurnMotorSpeed);
-			BRK_MotorSpeedSet(BRK_MotorSpeed);
-			CarSpeedSet(speed);
+			TurnMotorPositionControl((int32_t)Angle,PositionSet);
 			OSTimeDly ( 10, OS_OPT_TIME_DLY, & err );
     }
 		
@@ -253,8 +249,8 @@ static  void  AppTaskLed1 ( void * p_arg )
 *                                          LED2 TASK
 *********************************************************************************************************
 */
-
-static  void  AppTaskLed2 ( void * p_arg )
+int32_t BRK_MotorPositionSet = 0;
+static  void  AppTaskBRK_Motor ( void * p_arg )
 {
     OS_ERR      err;
 
@@ -263,7 +259,7 @@ static  void  AppTaskLed2 ( void * p_arg )
 
 
     while (DEF_TRUE) {                                          /* Task body, always written as an infinite loop.       */
-			//macLED2_TOGGLE ();
+			BRKMotorPositionControl(ADC_ConvertedValue,BRK_MotorPositionSet);
 			OSTimeDly ( 5000, OS_OPT_TIME_DLY, & err );
     }
 		
@@ -276,7 +272,7 @@ static  void  AppTaskLed2 ( void * p_arg )
 *                                          AngularTransducer TASK
 *********************************************************************************************************
 */
-double Angle = 0;
+
 static  void  AppTaskAngularTransducer ( void * p_arg )
 {
     OS_ERR      err;
@@ -301,9 +297,7 @@ static  void  AppTaskAngularTransducer ( void * p_arg )
 				
 			
 			OSTimeDly ( 10, OS_OPT_TIME_DLY, & err );
-    }
-		
-		
+    }	
 }
 
 

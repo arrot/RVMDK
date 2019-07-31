@@ -89,11 +89,16 @@
 #define             RELAY8_ON()                           GPIO_SetBits ( RELAY8_GPIO_PORT, RELAY8_GPIO_PIN )
 #define             RELAY8_TOGGLE()                        GPIO_ReadOutputDataBit ( RELAY8_GPIO_PORT, RELAY8_GPIO_PIN ) ? \
                                                            GPIO_ResetBits ( RELAY8_GPIO_PORT, RELAY8_GPIO_PIN ) : GPIO_SetBits ( RELAY8_GPIO_PORT, RELAY8_GPIO_PIN )
+
+#define             AUTO_FORMARD       1
+#define             AUTO_BACKMARD      2
+#define             MANUAL_CONTROL     0
+
 /****************************** LED º¯ÊýÉùÃ÷ ***************************************/
 void                               Relay_Init                         ( void );
  
-void CarSpeedSet(int8_t Speed);
-
+void CarSpeedSet(uint8_t Speed);
+int8_t SwitchMode(int8_t Mode);
 
 
 

@@ -64,10 +64,14 @@
 #define PWM_TIM_IRQHandler        TIM2_IRQHandler
 
 #define CYCLE                     500
+#define TURN_THRESHOLD_POS        5   //转向位置精度
+#define BRK_THRESHOLD_POS         5   //制动位置精度
 
 
 void Motor_Configuration(void);
 uint16_t TurnMotorSpeedSet(int8_t Speed);
 uint16_t BRK_MotorSpeedSet(int8_t Speed);
+uint8_t BRKMotorPositionControl(int8_t Position,int32_t PositionSet);
+uint8_t TurnMotorPositionControl(int32_t Position,int32_t PositionSet);
 #endif /* __GENERAL_TIM_H */
 

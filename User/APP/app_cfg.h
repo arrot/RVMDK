@@ -56,8 +56,8 @@
 
 #define  APP_TASK_START_PRIO                        2u
 
-#define  APP_TASK_LED1_PRIO                         3u
-#define  APP_TASK_LED2_PRIO                         3u
+#define  APP_TASK_TURN_MOTOR_PRIO                   3u
+#define  APP_TASK_BRK_MOTOR_PRIO                    3u
 #define  APP_TASK_ANGULAR_TRANSDUCER_PRIO           3u
 
 /*
@@ -68,8 +68,8 @@
 
 #define  APP_TASK_START_STK_SIZE                    128u
 
-#define  APP_TASK_LED1_STK_SIZE                     512u
-#define  APP_TASK_LED2_STK_SIZE                     512u
+#define  APP_TASK_TURN_MOTOR_STK_SIZE               512u
+#define  APP_TASK_BRK_MOTOR_STK_SIZE                512u
 #define  APP_TASK_ANGULAR_TRANSDUCER_STK_SIZE       512u
 
 
